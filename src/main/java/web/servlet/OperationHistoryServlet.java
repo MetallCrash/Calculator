@@ -1,4 +1,4 @@
-package servlets.servlet;
+package web.servlet;
 
 import service.OperationHistoryService;
 
@@ -14,7 +14,7 @@ public class OperationHistoryServlet extends HttpServlet {
     private final OperationHistoryService historyService = new OperationHistoryService();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer userId = (Integer) req.getSession().getAttribute("userId");
         req.setAttribute("operationList" , historyService.getOperationHistory(userId));
         req.getRequestDispatcher("operation.jsp").forward(req, resp);

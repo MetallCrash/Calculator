@@ -1,4 +1,4 @@
-package servlets.servlet;
+package web.servlet;
 
 import service.UserService;
 
@@ -22,7 +22,12 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        userService.createUser(login, password);
-        req.getRequestDispatcher("sign-in.jsp").forward(req, resp);
+        if (userService.findUser(login).isPresent()) {
+            req.setAttribute("message", "This login is already in use.");
+            req.getRequestDispatcher("registration.jsp").forward(req, resp);
+        } else {
+            userService.createUser(login, password);
+            resp.sendRedirect("sign-in.jsp");
+        }
     }
 }
